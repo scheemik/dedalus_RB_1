@@ -10,6 +10,7 @@ folder can be used to merge distributed analysis sets from parallel runs,
 and the `plot_2d_series.py` script can be used to plot the snapshots.
 
 To run, merge, and plot using 4 processes, for instance, you could use:
+    $ source bin/activate 		# activates dedalus
     $ mpiexec -n 4 python3 rayleigh_benard.py
     $ mpiexec -n 4 python3 merge.py snapshots
     $ mpiexec -n 4 python3 plot_2d_series.py snapshots/*.h5
