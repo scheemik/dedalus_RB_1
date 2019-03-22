@@ -10,10 +10,13 @@ folder can be used to merge distributed analysis sets from parallel runs,
 and the `plot_2d_series.py` script can be used to plot the snapshots.
 
 To run, merge, and plot using 4 processes, for instance, you could use:
-    $ source bin/activate 		# activates dedalus
+    $ conda activate dedalus 		# activates dedalus
     $ mpiexec -n 4 python3 rayleigh_benard.py
     $ mpiexec -n 4 python3 merge.py snapshots
     $ mpiexec -n 4 python3 plot_2d_series.py snapshots/*.h5
+    $ python3 create_gif.py
+
+The 'mpiexec -n 4' can be ommited to run in series
 
 The simulation should take a few process-minutes to run.
 
@@ -33,7 +36,7 @@ logger = logging.getLogger(__name__)
 # Parameters
 Lx, Lz = (4., 1.)
 Prandtl = 1.
-Rayleigh = 1e6
+Rayleigh = 1080 #1e6
 
 # Create bases and domain
 x_basis = de.Fourier('x', 256, interval=(0, Lx), dealias=3/2)
