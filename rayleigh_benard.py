@@ -32,11 +32,10 @@ from dedalus.extras import flow_tools
 import logging
 logger = logging.getLogger(__name__)
 
-
 # Parameters
 Lx, Lz = (4., 1.)
 Prandtl = 1.
-Rayleigh = 1080 #1e6
+Rayleigh = 1e6
 
 # Create bases and domain
 x_basis = de.Fourier('x', 256, interval=(0, Lx), dealias=3/2)
