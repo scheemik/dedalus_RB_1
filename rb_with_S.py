@@ -1,6 +1,13 @@
 """
 Dedalus script for 2D Rayleigh-Benard convection.
 
+Usage:
+    rb_with_S.py RA PR
+
+Arguments:
+    RA		Rayleigh number
+    PR		Prandtl number
+
 This script uses a Fourier basis in the x direction with periodic boundary
 conditions.  The equations are scaled in units of the buoyancy time (Fr = 1).
 
@@ -32,11 +39,21 @@ from dedalus.extras import flow_tools
 import logging
 logger = logging.getLogger(__name__)
 
+# For adding arguments when running
+from docopt import docopt
 
 # Parameters
 Lx, Lz = (4., 1.)
 Prandtl = 1.
-Rayleigh = 1080 #1e6
+Rayleigh = 1e6
+
+# Read in parameters from docopt
+if __name__ == '__main__':
+    arguments = docopt(__doc__)
+    Rayleigh = float(arguments.get('RA'))
+    print('Rayleigh number = ', Rayleigh)
+    Prandtl = float(arguments.get('PR'))
+    print('Prandtl number = ', Prandtl)
 
 # Create bases and domain
 x_basis = de.Fourier('x', 256, interval=(0, Lx), dealias=3/2)

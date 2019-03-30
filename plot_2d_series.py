@@ -2,10 +2,12 @@
 Plot planes from joint analysis files.
 
 Usage:
-    plot_2d_series.py <files>... [--output=<dir>]
+    plot_2d_series.py <files>... [--output=<dir>] [--rayleigh=<RA>] [--prandtl=<PR>]
 
 Options:
     --output=<dir>  Output directory [default: ./frames]
+    --rayleigh=<RA> Rayleigh number
+    --prandtl=<PR>  Prandtl number
 
 """
 
@@ -17,6 +19,8 @@ import matplotlib.pyplot as plt
 plt.ioff()
 from dedalus.extras import plot_tools
 
+Ra = 66.6
+Pr = 99.9
 
 def main(filename, start, count, output):
     """Save plot of specified tasks for given range of analysis writes."""
@@ -25,7 +29,7 @@ def main(filename, start, count, output):
     tasks = ['b', 'p', 'u', 'w']
     scale = 2.5
     dpi = 100
-    title_func = lambda sim_time: 't = {:.3f}'.format(sim_time)
+    title_func = lambda sim_time: 'Ra={:.2E}, Pr={:.2E}, t={:.3f}'.format(Ra, Pr, sim_time)
     savename_func = lambda write: 'write_{:06}.png'.format(write)
     # Layout
     nrows, ncols = 4, 1
@@ -49,7 +53,7 @@ def main(filename, start, count, output):
             # Add time title
             title = title_func(file['scales/sim_time'][index])
             title_height = 1 - 0.5 * mfig.margin.top / mfig.fig.y
-            fig.suptitle(title, x=0.48, y=title_height, ha='left')
+            fig.suptitle(title, x=0.3, y=title_height, ha='left')
             # Save figure
             savename = savename_func(file['scales/write_number'][index])
             savepath = output.joinpath(savename)
@@ -68,6 +72,10 @@ if __name__ == "__main__":
 
     args = docopt(__doc__)
 
+    Ra = float(args['--rayleigh'])
+    print('plot Ra=',Ra)
+    Pr = float(args['--prandtl'])
+    print('plot Pr=',Pr)
     output_path = pathlib.Path(args['--output']).absolute()
     # Create output directory if needed
     with Sync() as sync:
